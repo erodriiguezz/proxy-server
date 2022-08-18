@@ -25,8 +25,30 @@ router.get("/authorize", async (req, res) => {
 });
 
 // create attendee
-router.get("/attendee/create", async (req, res) => {
+router.post("/attendee/create", async (req, res) => {
   const apiUrl = "https://na.eventscloud.com/api/v2/ereg/createAttendee.json";
+
+  try {
+    let params = {
+      // access token
+      // event id
+      // attendee id
+    };
+
+    // get and format params
+    const reqParams = req.url.split("?")[1].split("&");
+    reqParams.forEach((param) => {
+      params[`${param.split("=")[0]}`] = `${param.split("=")[1]}`;
+    });
+
+    let attendeeData = req.body;
+
+    const rawRes = await needle("post", `${apiUrl}?${new URLSearchParams(params)}`, attendeeData);
+
+    res.status(200).json(rawRes.body);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 });
 
 // get attendee
