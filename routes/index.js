@@ -17,6 +17,37 @@ router.get("/authorize", async (req, res) => {
     });
 
     const rawRes = await needle("get", `${apiUrl}?${params}`);
+
+    res.status(200).json(rawRes.body);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+// create attendee
+router.get("/attendee/create", async (req, res) => {
+  const apiUrl = "https://na.eventscloud.com/api/v2/ereg/createAttendee.json";
+});
+
+// get attendee
+router.get("/attendee", async (req, res) => {
+  const apiUrl = "https://na.eventscloud.com/api/v2/ereg/getAttendee.json";
+
+  try {
+    let params = {
+      // access token
+      // event id
+      // attendee id
+    };
+
+    // get and format params
+    const reqParams = req.url.split("?")[1].split("&");
+    reqParams.forEach((param) => {
+      params[`${param.split("=")[0]}`] = `${param.split("=")[1]}`;
+    });
+
+    const rawRes = await needle("get", `${apiUrl}?${new URLSearchParams(params)}`);
+
     res.status(200).json(rawRes.body);
   } catch (error) {
     res.status(500).json({ error });
@@ -25,10 +56,14 @@ router.get("/authorize", async (req, res) => {
 
 // list attendees
 router.get("/attendee/list", async (req, res) => {
-  const apiUrl = "https://na.eventscloud.com/api/v2/ereg/listAttendees.json?";
+  const apiUrl = "https://na.eventscloud.com/api/v2/ereg/listAttendees.json";
 
   try {
-    let params = {};
+    let params = {
+      // access token
+      // event id
+      // offset (optional)
+    };
 
     // get and format params
     const reqParams = req.url.split("?")[1].split("&");
@@ -36,7 +71,8 @@ router.get("/attendee/list", async (req, res) => {
       params[`${param.split("=")[0]}`] = `${param.split("=")[1]}`;
     });
 
-    const rawRes = await needle("get", `${apiUrl}${new URLSearchParams(params)}`);
+    const rawRes = await needle("get", `${apiUrl}?${new URLSearchParams(params)}`);
+
     res.status(200).json(rawRes.body);
 
     // if custom filters are needed before sending the request
@@ -62,59 +98,5 @@ router.get("/attendee/list", async (req, res) => {
     res.status(500).json({ error });
   }
 });
-
-// get attendee information
-router.get("/attendee/:id", async (req, res) => {
-  const apiUrl = "https://na.eventscloud.com/api/v2/global/getAttendee.json";
-});
-
-// create attendee
-router.get("/attendee/create", async (req, res) => {
-  const apiUrl = "https://na.eventscloud.com/api/v2/global/createAttendee.json";
-});
-
-// attendee/list
-// attendee/[id]
-// attendee/create
-
-// router.get("/token", async (req, res) => {
-//   try {
-//     const params = new URLSearchParams({
-//       accountid: API_ACCOUNT_ID,
-//       key: API_KEY,
-//       ...url.parse(req.url, true).query,
-//     });
-
-//     const apiRes = await needle("get", `${API_URL}?${params}`);
-//     const data = apiRes.body;
-
-//     if (process.env.NODE_DEV !== "production") {
-//       console.log(`REQUEST: ${API_URL}?${params}`);
-//     }
-
-//     res.status(200).json(data);
-//   } catch (error) {
-//     res.status(500).json({ error });
-//   }
-// });
-
-// router.get("/attendees", async (req, res) => {
-//   try {
-//     const params = new URLSearchParams({
-//       ...url.parse(req.url, true).query,
-//     });
-
-//     const apiRes = await needle("get", `https://na.eventscloud.com/api/v2/ereg/listAttendees.json?${params}`);
-//     const data = apiRes.body;
-
-//     if (process.env.NODE_DEV !== "production") {
-//       console.log(`REQUEST: ${API_URL}?${params}`);
-//     }
-
-//     res.status(200).json(data);
-//   } catch (error) {
-//     res.status(500).json({ error });
-//   }
-// });
 
 module.exports = router;
