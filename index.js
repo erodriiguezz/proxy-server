@@ -2,11 +2,8 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
-const PORT = process.env.PORT || 8000;
 const app = express();
-
-// set static folder
-app.use(express.static("public"));
+const PORT = process.env.PORT || 8000;
 
 // routes
 app.use("/api", require("./routes"));
