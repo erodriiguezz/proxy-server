@@ -1,5 +1,7 @@
 const needle = require("needle");
 
+require("dotenv").config;
+
 const getToken = async () => {
   try {
     let params = new URLSearchParams({
