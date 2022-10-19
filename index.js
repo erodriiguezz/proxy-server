@@ -12,4 +12,8 @@ require("dotenv").config();
 // routes
 app.use("/api", require("./routes/router"));
 
+app.get("/hello", (req, res) => {
+  res.send("hello world");
+});
+
 app.listen(port, () => console.log("=> server running on port %s", port));
