@@ -125,7 +125,30 @@ router.get("/speaker/list", async (req, res) => {
     const rawRes = await needle("get", `https://api-na.eventscloud.com/api/v2/ereg/listSpeakers.json?accesstoken=${token}&${new URLSearchParams(params)}`);
 
     res.status(200).json(rawRes.body);
-    res.status(200).json(req.url);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+// get speaker
+router.get("/speaker", async (req, res) => {
+  const token = await auth.getToken();
+
+  try {
+    let params = {
+      // event id
+      // speaker id
+    };
+
+    // get and format params
+    const reqParams = req.url.split("?")[1].split("&");
+    reqParams.forEach((param) => {
+      params[`${param.split("=")[0]}`] = `${param.split("=")[1]}`;
+    });
+
+    const rawRes = await needle("get", `https://api-na.eventscloud.com/api/v2/ereg/getSpeaker.json?accesstoken=${token}&${new URLSearchParams(params)}`);
+
+    res.status(200).json(rawRes.body);
   } catch (error) {
     res.status(500).json({ error });
   }
