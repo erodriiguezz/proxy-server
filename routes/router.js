@@ -1,13 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const needle = require("needle");
+require("dotenv").config;
 
-const auth = require("./auth");
+const getToken = async () => {
+  let params = new URLSearchParams({
+    accountid: process.env.API_ACCOUNT_ID,
+    key: process.env.API_KEY,
+  });
+
+  const rawRes = await needle("get", `https://api-na.eventscloud.com/api/v2/global/authorize.json?${params}`);
+  return rawRes.body.accesstoken;
+};
 
 // authorize
 router.get("/authorize", async (req, res) => {
-  const token = await auth.getToken();
-  res.status(200).json(token);
+  try {
+    const token = await getToken();
+
+    res.status(200).json(token);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 });
 
 // create attendee
@@ -109,7 +123,7 @@ router.get("/attendee/list", async (req, res) => {
 
 // list speakers
 router.get("/speaker/list", async (req, res) => {
-  const token = await auth.getToken();
+  const token = await getToken();
 
   try {
     let params = {
@@ -132,7 +146,7 @@ router.get("/speaker/list", async (req, res) => {
 
 // get speaker
 router.get("/speaker", async (req, res) => {
-  const token = await auth.getToken();
+  const token = await getToken();
 
   try {
     let params = {
