@@ -10,6 +10,6 @@ app.use(express.json());
 require("dotenv").config();
 
 // routes
-app.use("/api", require("./routes"));
+app.use("/api", require("./routes/router"));
 
 app.listen(port, () => console.log("=> server running on port %s", port));

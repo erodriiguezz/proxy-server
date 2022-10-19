@@ -2,26 +2,12 @@ const express = require("express");
 const router = express.Router();
 const needle = require("needle");
 
-// env variables
-const API_ACCOUNT_ID = process.env.API_ACCOUNT_ID;
-const API_KEY = process.env.API_KEY;
+const auth = require("./auth");
 
 // authorize
 router.get("/authorize", async (req, res) => {
-  const apiUrl = "https://api-na.eventscloud.com/api/v2/global/authorize.json";
-
-  try {
-    let params = new URLSearchParams({
-      accountid: API_ACCOUNT_ID,
-      key: API_KEY,
-    });
-
-    const rawRes = await needle("get", `${apiUrl}?${params}`);
-
-    res.status(200).json(rawRes.body);
-  } catch (error) {
-    res.status(500).json({ error });
-  }
+  const token = await auth.getToken();
+  res.status(200).json(token);
 });
 
 // create attendee
@@ -116,6 +102,30 @@ router.get("/attendee/list", async (req, res) => {
     //     res.status(200).json(rawRes.body);
     //     break;
     // }
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+// list speakers
+router.get("/speaker/list", async (req, res) => {
+  const token = await auth.getToken();
+
+  try {
+    let params = {
+      // event id
+    };
+
+    // get and format params
+    const reqParams = req.url.split("?")[1].split("&");
+    reqParams.forEach((param) => {
+      params[`${param.split("=")[0]}`] = `${param.split("=")[1]}`;
+    });
+
+    const rawRes = await needle("get", `https://api-na.eventscloud.com/api/v2/ereg/listSpeakers.json?accesstoken=${token}&${new URLSearchParams(params)}`);
+
+    res.status(200).json(rawRes.body);
+    res.status(200).json(req.url);
   } catch (error) {
     res.status(500).json({ error });
   }
