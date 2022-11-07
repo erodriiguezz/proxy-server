@@ -1,19 +1,18 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+import routes from "./routes/router.js";
 
 const app = express();
-const port = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(express.json());
-
-require("dotenv").config();
+dotenv.config();
 
 // routes
-app.use("/api", require("./routes/router"));
+app.use("/api/v1/", routes);
 
-app.get("/hello", (req, res) => {
-  res.send("hello world");
-});
+const PORT = process.env.PORT || 8000;
 
-app.listen(port, () => console.log("=> server running on port %s", port));
+app.listen(PORT, () => console.log("=> server running on port %s", PORT));
