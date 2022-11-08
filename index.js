@@ -11,7 +11,11 @@ app.use(express.json());
 dotenv.config();
 
 // routes
-app.use("/api/v1/", listRoutes);
+app.use("/api/v1", listRoutes);
+
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
 
 const PORT = process.env.PORT || 8000;
 
