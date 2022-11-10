@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import listRoutes from "./routes/list.routes.js";
+import getRoutes from "./routes/get.routes.js";
 
 const app = express();
 
@@ -12,10 +13,7 @@ dotenv.config();
 
 // routes
 app.use("/api/v1", listRoutes);
-
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
+app.use("/api/v1", getRoutes);
 
 const PORT = process.env.PORT || 8000;
 

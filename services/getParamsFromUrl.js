@@ -1,4 +1,4 @@
-const formatParams = (url) => {
+const getParams = (url) => {
   let params = {};
 
   const reqParams = url.split("?")[1].split("&");
@@ -10,4 +10,4 @@ const formatParams = (url) => {
   return params;
 };
 
-export default formatParams;
+export default getParams;
