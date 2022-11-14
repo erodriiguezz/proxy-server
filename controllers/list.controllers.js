@@ -9,7 +9,7 @@ export const listAttendees = async (req, res) => {
     const requestParams = new URLSearchParams({
       accesstoken: await getToken(),
       eventid: getParamsFromUrl(req.url).eventid,
-      limit: getParamsFromUrl(req.url).limit,
+      limit: 2000,
       offset: getParamsFromUrl(req.url).offset,
     });
 
