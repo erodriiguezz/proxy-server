@@ -3,6 +3,6 @@ import { createAttendee } from "../controllers/create.controllers.js";
 
 const router = express.Router();
 
-router.get("/createAttendee", createAttendee);
+router.post("/createAttendee", createAttendee);
 
 export default router;
