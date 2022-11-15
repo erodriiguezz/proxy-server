@@ -1,7 +1,6 @@
 import needle from "needle";
 import getToken from "../services/getToken.js";
 import getParamsFromUrl from "../services/getParamsFromUrl.js";
-import getParams from "../services/getParamsFromUrl.js";
 
 //
 //

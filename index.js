@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
+import createRoutes from "./routes/create.routes.js";
 import listRoutes from "./routes/list.routes.js";
 import getRoutes from "./routes/get.routes.js";
 
@@ -12,6 +13,7 @@ app.use(express.json());
 dotenv.config();
 
 // routes
+app.use("/api/v1", createRoutes);
 app.use("/api/v1", listRoutes);
 app.use("/api/v1", getRoutes);
 
