@@ -23,6 +23,24 @@ export const getAttendee = async (req, res) => {
 
 //
 //
+export const getEvent = async (req, res) => {
+  try {
+    const requestParams = new URLSearchParams({
+      accesstoken: await getToken(),
+      eventid: getParamsFromUrl(req.url).eventid,
+      customfields: true,
+    });
+
+    const requestResponse = await needle("get", `https://api-na.eventscloud.com/api/v2/ereg/getEvent.json?${requestParams}`);
+
+    res.status(200).json(requestResponse.body);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+//
+//
 export const getSession = async (req, res) => {
   try {
     const requestParams = new URLSearchParams({

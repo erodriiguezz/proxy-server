@@ -1,10 +1,10 @@
 import express from "express";
-import { getAttendee, getSession, getSpeaker } from "../controllers/get.controllers.js";
+import { getAttendee, getEvent, getSession, getSpeaker } from "../controllers/get.controllers.js";
 
 const router = express.Router();
 
 router.get("/getAttendee", getAttendee);
-router.get("/getEvent", (req, res) => {});
+router.get("/getEvent", getEvent);
 router.get("/getSession", getSession);
 router.get("/getSpeaker", getSpeaker);
 
